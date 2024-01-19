@@ -1,0 +1,15 @@
+
+config/airflow-connections.yaml
+config/airflow.cfg
+keys/dvd-rental-gcp-key.json
+logs/
+dvdrental_dbt/profiles.yml
+dvdrental_soda/configuration.yml
+
+.env
+
+terraform/.terraform
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/variables.tf

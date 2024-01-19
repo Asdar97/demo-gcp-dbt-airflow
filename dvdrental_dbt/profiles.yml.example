@@ -1,0 +1,13 @@
+my-bigquery-db:
+
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: {your-project-id}
+      dataset: raw_dvdrental
+      threads: 4 # Must be a value of 1 or greater
+      keyfile: {path to the gcp json credentials file}
+      OPTIONAL_CONFIG: VALUE
+
+  target: dev

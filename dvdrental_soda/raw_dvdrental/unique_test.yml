@@ -1,0 +1,44 @@
+checks for actor:
+  - duplicate_count(actor_id) = 0
+
+checks for address:
+  - duplicate_count(address_id) = 0
+
+checks for category:
+  - duplicate_count(category_id) = 0
+
+checks for city:
+  - duplicate_count(city_id) = 0
+
+checks for country:
+  - duplicate_count(country_id) = 0
+
+checks for customer:
+  - duplicate_count(customer_id) = 0
+
+checks for film:
+  - duplicate_count(film_id) = 0
+
+checks for film_actor:
+  - duplicate_count(film_id, actor_id) = 0
+
+checks for film_category:
+  - duplicate_count(film_id, category_id) = 0
+
+checks for inventory:
+  - duplicate_count(inventory_id) = 0
+
+checks for language:
+  - duplicate_count(language_id) = 0
+
+checks for payment:
+  - duplicate_count(payment_id) = 0
+
+checks for rental:
+  - duplicate_count(rental_id) = 0
+
+checks for staff:
+  - duplicate_count(staff_id) = 0
+
+checks for store:
+  - duplicate_count(store_id) = 0

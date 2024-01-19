@@ -1,0 +1,12 @@
+postgres_dvd:
+  conn_type: postgres
+  description: 'sample data for dvd rental'
+  host: host.docker.internal
+  login: postgres
+  password: #########
+  port: 5432
+  schema: dvdrental
+gcp_dvd:
+  conn_type: google_cloud_platform
+  extra: {"key_path": "keys/dvd-rental-gcp-key.json", "scope": "https://www.googleapis.com/auth/cloud-platform", 
+    "project": "{your-project-id}"}

@@ -1,0 +1,44 @@
+checks for actor:  
+  - row_count same as actor in dvdrental_postgres
+
+checks for address:
+  - row_count same as address in dvdrental_postgres
+
+checks for category:
+  - row_count same as category in dvdrental_postgres
+
+checks for city:
+  - row_count same as city in dvdrental_postgres
+
+checks for country:
+  - row_count same as country in dvdrental_postgres
+
+checks for customer:
+  - row_count same as customer in dvdrental_postgres
+
+checks for film:
+  - row_count same as film in dvdrental_postgres
+
+checks for film_actor:
+  - row_count same as film_actor in dvdrental_postgres
+
+checks for film_category:
+  - row_count same as film_category in dvdrental_postgres
+
+checks for inventory:
+  - row_count same as inventory in dvdrental_postgres
+
+checks for language:
+  - row_count same as language in dvdrental_postgres
+
+checks for payment:
+  - row_count same as payment in dvdrental_postgres
+
+checks for rental:
+  - row_count same as rental in dvdrental_postgres
+
+checks for staff:
+  - row_count same as staff in dvdrental_postgres
+
+checks for store:
+  - row_count same as store in dvdrental_postgres

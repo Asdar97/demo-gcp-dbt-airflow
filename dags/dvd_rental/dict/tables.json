@@ -1,0 +1,77 @@
+[
+    {
+        "table_name": "actor",
+        "unique_key": ["actor_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "address",
+        "unique_key": ["address_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "category",
+        "unique_key": ["category_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "city",
+        "unique_key": ["city_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "country",
+        "unique_key": ["country_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "customer",
+        "unique_key": ["customer_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "film",
+        "unique_key": ["film_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "film_actor",
+        "unique_key": ["actor_id", "film_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "film_category",
+        "unique_key": ["film_id", "category_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "inventory",
+        "unique_key": ["inventory_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "language",
+        "unique_key": ["language_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "payment",
+        "unique_key": ["payment_id"],
+        "watermark_column": "payment_date"
+    },
+    {
+        "table_name": "rental",
+        "unique_key": ["rental_id"],
+        "watermark_column": "rental_date"
+    },
+    {
+        "table_name": "staff",
+        "unique_key": ["staff_id"],
+        "watermark_column": "last_update"
+    },
+    {
+        "table_name": "store",
+        "unique_key": ["store_id"],
+        "watermark_column": "last_update"
+    }
+]
