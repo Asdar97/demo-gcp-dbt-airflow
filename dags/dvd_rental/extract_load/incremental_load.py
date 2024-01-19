@@ -85,10 +85,10 @@ def el_pipeline():
         def load_to_gcs(table, gcp_conn_id, **kwargs):
             
             try:
-                gcs_hook = GCSHook(gcp_conn_id=gcp_conn_id)
+                gcp_hook = GCSHook(gcp_conn_id=gcp_conn_id)
                 gcs_bucket = "dvdrental_project"
-                gcs_object = f"{table['table_name']}/{kwargs['ds']}/{table['table_name']}_{kwargs['ds']}.parquet"
-                gcs_hook.upload(
+                gcs_object = f"{table['table_name']}/{table['table_name']}_{kwargs['ds']}.parquet"
+                gcp_hook.upload(
                     bucket_name=gcs_bucket,
                     object_name=gcs_object,
                     filename=f"{TMP_DATA_PATH}/{table['table_name']}_{kwargs['ds']}.parquet",
@@ -96,18 +96,70 @@ def el_pipeline():
                 logging.info(f"Successfully uploaded file to GCS: {gcs_object}")
             except Exception as e:
                 logging.error(e)
-                if("Invalid object name" in str(e)):
-                    raise AirflowSkipException
-                else:
-                    raise e
+                raise e
+
+        
+        @task(
+            task_id=f"create_temp_{table['table_name']}_table_in_bq",
+        )
+        def create_temp_table_in_bq(table, gcp_conn_id, **kwargs):
                 
-            return gcs_object
+            try:
+                create_table = gcs_to_bq.GoogleCloudStorageToBigQueryOperator(
+                    task_id=f"create_temp_{table['table_name']}_table_in_bq",
+                    bucket="dvdrental_project",
+                    source_objects=f"{table['table_name']}/{table['table_name']}_{kwargs['ds']}.parquet",
+                    destination_project_dataset_table=f"temp_table.{table['table_name']}_{kwargs['ds']}",
+                    source_format="PARQUET",
+                    create_disposition="CREATE_IF_NEEDED",
+                    write_disposition="WRITE_TRUNCATE",
+                    autodetect=True,
+                    external_table=True,
+                    gcp_conn_id=gcp_conn_id
+                )
+                create_table.execute(context=kwargs)
+                logging.info(f"Successfully created external table in BQ: {table['table_name']}")
+            except Exception as e:
+                logging.error(e)
+                raise e
+        
+
+        @task(
+            task_id=f"delete_{table['table_name']}_from_local",
+        )
+        def delete_file(table, **kwargs):
+            try:
+                os.remove(f"{TMP_DATA_PATH}/{table['table_name']}_{kwargs['ds']}.parquet")
+                logging.info(f"Successfully deleted file: {table['table_name']}_{kwargs['ds']}.parquet")
+            except Exception as e:
+                logging.error(e)
+                raise e
+            
+        
+        @task(
+            task_id=f"dbt_upsert_{table['table_name']}_table",
+        )
+        def dbt_upsert(table, **kwargs):
+
+            try:
+                dbt_upsert = BashOperator(
+                    task_id=f"dbt_upsert_{table['table_name']}_table",
+                    bash_command=f"cd /dbt && dbt run --models raw_dvdrental.{table['table_name']} --vars '{{database: temp_table, table: {table['table_name']}_{kwargs['ds']}}}'",
+                )
+                dbt_upsert.execute(context=kwargs)
+                logging.info(f"Successfully ran dbt incremental for table: {table['table_name']}")
+            except Exception as e:
+                logging.error(e)
+                raise e
         
 
         extract_data = extract_postgres(table, postgres_conn_id)
         load_data = load_to_gcs(table, gcp_conn_id)
+        create_table = create_temp_table_in_bq(table, gcp_conn_id)
+        delete_file = delete_file(table)
+        dbt_upsert = dbt_upsert(table)
     
-        extract_data >> load_data
+        extract_data >> load_data >> [delete_file, create_table] >> dbt_upsert
         
 
 el_pipeline()
