@@ -21,8 +21,8 @@ from airflow.exceptions import AirflowSkipException
 @dag(
     "execute-soda-dbt_01",
     default_args={
-        'email': ['mohdasdar97@gmail.com'],
-        #'email_on_failure': True,
+        'email': ['youremail@gmail.com'],
+        'email_on_failure': True,
         'email_on_retry': False
     },
     schedule_interval='0 18 * * *',

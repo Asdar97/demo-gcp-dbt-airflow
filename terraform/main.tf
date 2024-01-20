@@ -20,7 +20,7 @@ resource "google_bigquery_dataset" "temp_table" {
 
   access {
     role   = "owner"
-    user_by_email = "mohdasdar97@gmail.com"
+    user_by_email = var.email
   }
 }
 
@@ -31,7 +31,7 @@ resource "google_bigquery_dataset" "raw_dvdrental" {
 
   access {
     role   = "owner"
-    user_by_email = "mohdasdar97@gmail.com"
+    user_by_email = var.email
   }
 }
 
@@ -42,7 +42,7 @@ resource "google_bigquery_dataset" "bv" {
 
   access {
     role   = "owner"
-    user_by_email = "mohdasdar97@gmail.com"
+    user_by_email = var.email
   }
 }
 
@@ -53,7 +53,7 @@ resource "google_bigquery_dataset" "public" {
 
   access {
     role   = "owner"
-    user_by_email = "mohdasdar97@gmail.com"
+    user_by_email = var.email
   }
 }
 

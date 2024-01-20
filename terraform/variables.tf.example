@@ -9,3 +9,7 @@ variable "region" {
 variable "zone" {
     default = "asia-southeast1-a"
 }
+
+variable "email" {
+    default = "{your-email}"
+}

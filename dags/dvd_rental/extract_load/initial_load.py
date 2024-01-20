@@ -38,7 +38,7 @@ SEED_END_DATE_NODASH = SEED_END_DATE.strftime("%Y%m%d")
 @dag(
     "SEED.dvdrental_pipeline_01",
     default_args={
-        'email': ['mohdasdar97@gmail.com'],
+        'email': ['youremail@gmail.com'],
         'email_on_failure': True,
         'email_on_retry': False
     },

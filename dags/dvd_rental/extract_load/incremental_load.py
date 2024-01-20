@@ -33,6 +33,11 @@ temp_dataset = "temp_table"
 
 @dag(
     "dvdrental_pipeline_01",
+    default_args={
+    'email': ['youremail@gmail.com'],
+    'email_on_failure': True,
+    'email_on_retry': False
+    },
     schedule_interval='16 5 * * *',
     start_date=datetime(2023, 12, 20),
     tags=["dvdrental_pipeline"],
