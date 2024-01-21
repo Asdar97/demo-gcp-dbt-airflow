@@ -28,6 +28,7 @@ TABLES_LIST_PATH = os.getcwd()+'/dags/dvd_rental/dict/tables.json'
 
 postgres_conn_id = "postgres_dvd"
 gcp_conn_id = "gcp_dvd"
+temp_dataset = "temp_table"
 
 SEED_FILL_YEAR = 2023
 SEED_START_DATE = datetime(1970, 1, 1)
@@ -152,7 +153,7 @@ def el_pipeline():
             try:
                 dbt_upsert = BashOperator(
                     task_id=f"dbt_upsert_{table['table_name']}_table",
-                    bash_command=f"cd /dbt && dbt run --models raw_dvdrental.{table['table_name']} --vars '{{database: temp_table, table: {table['table_name']}_{SEED_END_DATE_NODASH}}}'",
+                    bash_command=f"cd /dbt && dbt run --models raw_dvdrental.{table['table_name']} --vars '{{database: {temp_dataset}, table: {table['table_name']}_{SEED_END_DATE_NODASH}}}'",
                 )
                 dbt_upsert.execute(context=kwargs)
                 logging.info(f"Successfully ran dbt incremental for table: {table['table_name']}")

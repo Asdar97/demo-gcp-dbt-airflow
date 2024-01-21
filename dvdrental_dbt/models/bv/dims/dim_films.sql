@@ -7,37 +7,37 @@
 
 WITH film AS (
 
-    SELECT * FROM {{ ref('film') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'film') }}
 
 ),
 
 language AS (
 
-    SELECT * FROM {{ ref('language') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'language') }}
 
 ),
 
 category AS (
 
-    SELECT * FROM {{ ref('category') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'category') }}
 
 ),
 
 film_category AS (
 
-    SELECT * FROM {{ ref('film_category') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'film_category') }}
 
 ),
 
 actor AS (
 
-    SELECT * FROM {{ ref('actor') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'actor') }}
 
 ),
 
 film_actor AS (
 
-    SELECT * FROM {{ ref('film_actor') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'film_actor') }}
 
 ),
 

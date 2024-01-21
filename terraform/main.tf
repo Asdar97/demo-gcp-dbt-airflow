@@ -57,3 +57,13 @@ resource "google_bigquery_dataset" "public" {
   }
 }
 
+resource "google_bigquery_dataset" "snapshots" {
+  dataset_id                  = "snapshots"
+  description                 = "Database to store snapshots data - scd type 2"
+  location                    = var.region
+
+  access {
+    role   = "owner"
+    user_by_email = var.email
+  }
+}

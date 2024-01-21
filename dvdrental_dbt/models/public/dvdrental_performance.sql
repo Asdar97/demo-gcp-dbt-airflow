@@ -1,7 +1,7 @@
 {{
     config(
         materialized='view',
-        unique_key=['rental_id']
+        unique_key=['Rental ID']
     )
 }}
 

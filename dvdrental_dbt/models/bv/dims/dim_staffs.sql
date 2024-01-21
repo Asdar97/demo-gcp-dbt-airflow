@@ -7,7 +7,7 @@
 
 WITH staff AS (
 
-    SELECT * FROM {{ ref('staff') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'staff') }}
 
 ),
 

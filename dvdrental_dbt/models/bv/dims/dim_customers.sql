@@ -7,7 +7,7 @@
 
 WITH customer AS (
 
-    SELECT * FROM {{ ref('customer') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'customer') }}
 
 ),
 

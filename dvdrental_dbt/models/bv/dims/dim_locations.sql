@@ -7,19 +7,19 @@
 
 WITH address AS (
 
-    SELECT * FROM {{ ref('address') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'address') }}
 
 ),
 
 city AS (
 
-    SELECT * FROM {{ ref('city') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'city') }}
 
 ),
 
 country AS (
 
-    SELECT * FROM {{ ref('country') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'country') }}
 
 ),
 

@@ -7,19 +7,19 @@
 
 WITH rental AS (
 
-    SELECT * FROM {{ ref('rental') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'rental') }}
 
 ),
 
 payment AS (
 
-    SELECT * FROM {{ ref('payment') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'payment') }}
 
 ),
 
 inventory AS (
 
-    SELECT * FROM {{ ref('inventory') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'inventory') }}
 
 ),
 

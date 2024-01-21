@@ -69,9 +69,13 @@ def el_pipeline():
             logging.info(f"Executing query: {sql_query}")
 
             try:
-                output_fp = f"{TMP_DATA_PATH}/{table['table_name']}_{kwargs['ds']}.parquet"
+                output_fp = f"{TMP_DATA_PATH}/{table['table_name']}_{kwargs['ds_nodash']}.parquet"
                 pg_hook = PostgresHook(postgres_conn_id=postgres_conn_id)
                 df = pg_hook.get_pandas_df(sql_query)
+
+                if(len(df) == 0):
+                    raise AirflowSkipException
+                
                 logging.info(f"Writing {len(df)} rows to {output_fp}")
                 df.to_parquet(output_fp, index=False, compression="snappy")
                 logging.info(f"Successfully saved file to parquet: {output_fp}")
@@ -82,9 +86,7 @@ def el_pipeline():
                 else:
                     raise e
                 
-            return output_fp
         
-
         @task( 
             task_id=f"load_{table['table_name']}_to_gcs",
         )
@@ -93,11 +95,11 @@ def el_pipeline():
             try:
                 gcp_hook = GCSHook(gcp_conn_id=gcp_conn_id)
                 gcs_bucket = "dvdrental_project"
-                gcs_object = f"{table['table_name']}/{table['table_name']}_{kwargs['ds']}.parquet"
+                gcs_object = f"{table['table_name']}/{table['table_name']}_{kwargs['ds_nodash']}.parquet"
                 gcp_hook.upload(
                     bucket_name=gcs_bucket,
                     object_name=gcs_object,
-                    filename=f"{TMP_DATA_PATH}/{table['table_name']}_{kwargs['ds']}.parquet",
+                    filename=f"{TMP_DATA_PATH}/{table['table_name']}_{kwargs['ds_nodash']}.parquet",
                 )
                 logging.info(f"Successfully uploaded file to GCS: {gcs_object}")
             except Exception as e:
@@ -114,8 +116,8 @@ def el_pipeline():
                 create_table = gcs_to_bq.GoogleCloudStorageToBigQueryOperator(
                     task_id=f"create_temp_{table['table_name']}_table_in_bq",
                     bucket="dvdrental_project",
-                    source_objects=f"{table['table_name']}/{table['table_name']}_{kwargs['ds']}.parquet",
-                    destination_project_dataset_table=f"temp_table.{table['table_name']}_{kwargs['ds']}",
+                    source_objects=f"{table['table_name']}/{table['table_name']}_{kwargs['ds_nodash']}.parquet",
+                    destination_project_dataset_table=f"temp_table.{table['table_name']}_{kwargs['ds_nodash']}",
                     source_format="PARQUET",
                     create_disposition="CREATE_IF_NEEDED",
                     write_disposition="WRITE_TRUNCATE",
@@ -135,8 +137,8 @@ def el_pipeline():
         )
         def delete_file(table, **kwargs):
             try:
-                os.remove(f"{TMP_DATA_PATH}/{table['table_name']}_{kwargs['ds']}.parquet")
-                logging.info(f"Successfully deleted file: {table['table_name']}_{kwargs['ds']}.parquet")
+                os.remove(f"{TMP_DATA_PATH}/{table['table_name']}_{kwargs['ds_nodash']}.parquet")
+                logging.info(f"Successfully deleted file: {table['table_name']}_{kwargs['ds_nodash']}.parquet")
             except Exception as e:
                 logging.error(e)
                 raise e
@@ -150,7 +152,7 @@ def el_pipeline():
             try:
                 dbt_upsert = BashOperator(
                     task_id=f"dbt_upsert_{table['table_name']}_table",
-                    bash_command=f"cd /dbt && dbt run --models raw_dvdrental.{table['table_name']} --vars '{{database: {temp_dataset}, table: {table['table_name']}_{kwargs['ds']}}}'",
+                    bash_command=f"cd /dbt && dbt run --models raw_dvdrental.{table['table_name']} --vars '{{database: {temp_dataset}, table: {table['table_name']}_{kwargs['ds_nodash']}}}'",
                 )
                 dbt_upsert.execute(context=kwargs)
                 logging.info(f"Successfully ran dbt incremental for table: {table['table_name']}")

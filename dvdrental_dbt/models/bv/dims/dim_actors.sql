@@ -7,19 +7,19 @@
 
 WITH actor AS (
 
-    SELECT * FROM {{ ref('actor') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'actor') }}
 
 ),
 
 film_actor AS (
 
-    SELECT * FROM {{ ref('film_actor') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'film_actor') }}
 
 ),
 
 film AS (
 
-    SELECT * FROM {{ ref('film') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'film') }}
 
 ),
 

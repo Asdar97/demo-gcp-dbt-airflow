@@ -7,7 +7,7 @@
 
 WITH store AS (
 
-    SELECT * FROM {{ ref('store') }}
+    SELECT * FROM {{ source('raw_dvdrental', 'store') }}
 
 ),
 

@@ -72,11 +72,11 @@
     - `docker-compose down` - stop the containers
     - `docker-compose ps` - list the containers
     - `docker-compose logs -f` - show the logs
-    - `docker exec -it dvdrental-airflow-gcp-airflow-webserver-1 bash` - connect to the container
+    - `docker exec -it demo-dbt-airflow-gcp-airflow-webserver-1 bash` - connect to the container
 
     2.5. Add connection in Airflow
     - Run
-        - `docker exec -it dvdrental-airflow-gcp-airflow-webserver-1 bash -c "airflow connections import /opt/airflow/config/airflow-connections.yaml"`
+        - `docker exec -it demo-dbt-airflow-gcp-airflow-webserver-1 bash -c "airflow connections import /opt/airflow/config/airflow-connections.yaml"`
 
     2.6. Populate the dags folder (eg. in dags/dvd_rental folder)
 
@@ -131,6 +131,7 @@
     - Add custom_schema_macro.sql to the macros folder
     - Populate packages needed in the packages.yml file and run
         - `dbt deps` - install the packages
+        - `docker exec -it demo-dbt-airflow-gcp-airflow-webserver-1 bash -c "cd /dbt && dbt deps"` - install the packages in the container
 
     4.4 Populate the models folder (eg. in bv, publiv and raw_dvdrental folders) and update dbt_project.yml file
     

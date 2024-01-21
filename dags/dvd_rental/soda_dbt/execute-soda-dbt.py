@@ -19,7 +19,7 @@ from airflow.exceptions import AirflowSkipException
 
 
 @dag(
-    "execute-soda-dbt_01",
+    "soda-checks-dbt-transformations_01",
     default_args={
         'email': ['youremail@gmail.com'],
         'email_on_failure': True,
@@ -60,11 +60,11 @@ def soda_dbt_execution():
 
         try:
             dbt_snapshots = BashOperator(
-                task_id=f"execute_dbt_bsnapshots",
+                task_id=f"execute_dbt_snapshots",
                 bash_command=f"cd /dbt && dbt snapshot",
             )
             dbt_snapshots.execute(context=kwargs)
-            logging.info(f"Successfully ran dbt build in bv schema")
+            logging.info(f"Successfully ran dbt snapshot in snapshots schema")
         except Exception as e:
             logging.error(e)
             raise e
@@ -72,15 +72,31 @@ def soda_dbt_execution():
     @task(
         task_id=f"execute_dbt_build_bv",
     )
-    def dbt_build(**kwargs):
+    def dbt_build_bv(**kwargs):
 
         try:
-            dbt_build = BashOperator(
+            dbt_build_bv = BashOperator(
                 task_id=f"execute_dbt_build_bv",
-                bash_command=f"cd /dbt && dbt run --models bv",
+                bash_command=f"cd /dbt && dbt build --models bv",
             )
-            dbt_build.execute(context=kwargs)
+            dbt_build_bv.execute(context=kwargs)
             logging.info(f"Successfully ran dbt build in bv schema")
+        except Exception as e:
+            logging.error(e)
+            raise e
+        
+    @task(
+        task_id=f"execute_dbt_build_mart",
+    )
+    def dbt_build_mart(**kwargs):
+
+        try:
+            dbt_build_mart = BashOperator(
+                task_id=f"execute_dbt_build_mart",
+                bash_command=f"cd /dbt && dbt build --models public",
+            )
+            dbt_build_mart.execute(context=kwargs)
+            logging.info(f"Successfully ran dbt build in public schema")
         except Exception as e:
             logging.error(e)
             raise e
@@ -88,9 +104,10 @@ def soda_dbt_execution():
         
     soda_tests = soda_tests()
     dbt_snapshots = dbt_snapshots()
-    dbt_build = dbt_build()
+    dbt_build_bv = dbt_build_bv()
+    dbt_build_mart = dbt_build_mart()
 
-    soda_tests >> dbt_snapshots >> dbt_build
+    soda_tests >> dbt_snapshots >> dbt_build_bv >> dbt_build_mart
 
 
 soda_dbt_execution()

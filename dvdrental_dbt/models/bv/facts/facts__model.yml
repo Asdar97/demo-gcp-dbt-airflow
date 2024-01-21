@@ -1,0 +1,9 @@
+version: 2
+
+models:
+  - name: fact_rental_payments
+    columns:
+      - name: rental_id
+        tests:
+          - unique
+          - not_null
