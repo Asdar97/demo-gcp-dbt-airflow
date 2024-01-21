@@ -7,7 +7,8 @@
 1. Docker installed - https://docs.docker.com/engine/install/
 2. Postgres installed - https://www.postgresql.org/download/
 3. Terraform installed - https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli
-4. GCP account with billing enabled
+4. VSCode installed - https://code.visualstudio.com/download
+5. GCP account with billing enabled
 
 
 ## Tools
