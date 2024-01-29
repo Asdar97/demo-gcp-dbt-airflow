@@ -56,30 +56,22 @@
         - `- ./dvdrental_dbt:/dbt`
         - `- ./dvdrental_soda:/soda`
 
-    2.2. Create new folders in the same directory
-    - config
-    - dags
-    - data
-    - keys
-    - logs
-    - plugins
-
-    2.3. Populate the config folder
+    2.2. Populate the config folder
     - airflow-connections.yaml (see .example)
     - airflow.cfg (see .example)
 
-    2.4. Useful docker commands
+    2.3. Useful docker commands
     - `docker-compose up -d` - start the containers
     - `docker-compose down` - stop the containers
     - `docker-compose ps` - list the containers
     - `docker-compose logs -f` - show the logs
     - `docker exec -it demo-dbt-airflow-gcp-airflow-webserver-1 bash` - connect to the container
 
-    2.5. Add connection in Airflow
+    2.4. Add connection in Airflow
     - Run
         - `docker exec -it demo-dbt-airflow-gcp-airflow-webserver-1 bash -c "airflow connections import /opt/airflow/config/airflow-connections.yaml"`
 
-    2.6. Populate the dags folder (eg. in dags/dvd_rental folder)
+    2.5. Populate the dags folder (eg. in dags/dvd_rental folder)
 
 
 3. Deploy GCP resources with terraform
