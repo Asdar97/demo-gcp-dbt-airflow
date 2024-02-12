@@ -63,8 +63,8 @@
     2.3. Useful docker commands
     - `docker-compose up -d` - start the containers
     - `docker-compose down` - stop the containers
-    - `docker-compose ps` - list the containers
-    - `docker-compose logs -f` - show the logs
+    - `docker ps` - list the containers
+    - `docker logs -f` - show the logs
     - `docker exec -it demo-dbt-airflow-gcp-airflow-webserver-1 bash` - connect to the container
 
     2.4. Add connection in Airflow
