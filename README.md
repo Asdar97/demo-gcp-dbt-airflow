@@ -31,13 +31,13 @@
 
     1.2. Create a database called dvdrental
     - Open the command line
+    - Make sure PATH is set for PostgreSQL Tools - https://www.commandprompt.com/education/how-to-set-windows-path-for-postgres-tools/
     - Navigate to PostgreSQL's bin directory
         - `cd C:\Program Files\PostgreSQL\{version}\bin`
     - Run 
         - `createdb -U postgres dvdrental`
 
     1.3. Restore the data into the database
-    - Make sure PATH is set for PostgreSQL Tools - https://www.commandprompt.com/education/how-to-set-windows-path-for-postgres-tools/
     - Run
         - `pg_restore -c -U postgres -d dvdrental -v "C:\{path to extracted tar file}\dvdrental.tar"`
 
