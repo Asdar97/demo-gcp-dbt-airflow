@@ -69,7 +69,7 @@
 
     2.4. Add connection in Airflow
     - Run
-        - `docker exec -it demo-dbt-airflow-gcp-airflow-webserver-1 bash -c "airflow connections import /opt/airflow/config/airflow-connections.yaml"`
+        - `docker exec -it {container_name}-airflow-webserver-1 bash -c "airflow connections import /opt/airflow/config/airflow-connections.yaml"`
 
     2.5. Populate the dags folder (eg. in dags/dvd_rental folder)
 
